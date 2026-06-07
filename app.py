@@ -432,35 +432,45 @@ Responde en español, de forma concisa (máx 200 palabras), usando emojis modera
 # ── WEBHOOK TWILIO ───────────────────────────────────────────
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    mensaje = request.form.get("Body", "").strip().lower()
+    # Limpiar mensaje: quitar espacios, bajar a minúsculas, eliminar caracteres invisibles
+    raw = request.form.get("Body", "")
+    mensaje = " ".join(raw.strip().lower().split())  # normaliza espacios múltiples
+    
     resp = MessagingResponse()
     msg = resp.message()
 
-    # Comandos
-    if mensaje in ["hoy", "partidos", "partidos hoy"]:
+    # Partir en tokens para comandos con argumentos
+    partes = mensaje.split()
+    cmd = partes[0] if partes else ""
+
+    # Comandos simples
+    if cmd in ["hoy", "partidos"] or mensaje == "partidos hoy":
         msg.body(partidos_hoy())
-    elif mensaje in ["tabla", "puntos", "score"]:
+    elif cmd in ["tabla", "puntos", "score"]:
         msg.body(tabla_puntos())
-    elif mensaje in ["ayuda", "help", "menu", "menú", "comandos"]:
+    elif cmd in ["ayuda", "help", "menu", "menú", "comandos"]:
         msg.body(ayuda())
-    elif mensaje in ["pendientes", "faltan"]:
+    elif cmd in ["pendientes", "faltan"]:
         msg.body(partidos_pendientes())
-    elif mensaje.startswith("resultado "):
-        partes = mensaje.split()
+
+    # resultado [ID] [marcador]  — ej: resultado a1 2-1
+    elif cmd == "resultado":
         if len(partes) >= 3:
-            mid = partes[1]
-            marcador = partes[2]
+            mid = partes[1].upper()        # a1 → A1
+            marcador = partes[2].strip()   # 2-1
             msg.body(registrar_resultado(mid, marcador))
         else:
-            msg.body("❌ Formato: *resultado A1 2-1*")
-    elif mensaje.startswith("pronostico ") or mensaje.startswith("pronóstico "):
-        partes = mensaje.split()
+            msg.body("❌ Formato: *resultado A1 2-1*\nEjemplo: resultado a1 3-0")
+
+    # pronostico [ID]  — ej: pronostico b2
+    elif cmd in ["pronostico", "pronóstico", "prono"]:
         if len(partes) >= 2:
-            msg.body(pronostico_partido(partes[1]))
+            msg.body(pronostico_partido(partes[1].upper()))
         else:
             msg.body("❌ Formato: *pronostico A1*")
+
+    # Cualquier otra cosa → Claude responde
     else:
-        # Claude responde preguntas libres
         msg.body(resumen_claude(mensaje))
 
     return Response(str(resp), mimetype="text/xml")
