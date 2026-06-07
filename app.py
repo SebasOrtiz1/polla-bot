@@ -20,10 +20,17 @@ app = Flask(__name__)
 # ── CLIENTES ─────────────────────────────────────────────────
 anthropic_client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
-twilio_client = TwilioClient(
-    os.environ.get("TWILIO_ACCOUNT_SID"),
-    os.environ.get("TWILIO_AUTH_TOKEN")
-)
+# Cliente Twilio lazy — se crea solo cuando va a enviar un mensaje
+# Así el bot arranca sin errores aunque las variables no estén aún
+_twilio_client = None
+def get_twilio():
+    global _twilio_client
+    if _twilio_client is None:
+        sid   = os.environ.get("TWILIO_ACCOUNT_SID")
+        token = os.environ.get("TWILIO_AUTH_TOKEN")
+        if sid and token:
+            _twilio_client = TwilioClient(sid, token)
+    return _twilio_client
 
 # Variables de entorno que configurarás en Railway
 NUMERO_DESTINO        = os.environ.get("MI_NUMERO_WHATSAPP")          # ej: +573001234567
@@ -395,7 +402,11 @@ def enviar_recordatorio():
     mensaje = partidos_hoy()
     mensaje = "🌅 *Buenos días! Partidos de hoy:*\n\n" + mensaje.split("\n", 1)[-1]
     try:
-        twilio_client.messages.create(
+        cliente = get_twilio()
+        if not cliente:
+            print('Twilio no configurado, saltando recordatorio')
+            return
+        cliente.messages.create(
             body=mensaje,
             from_=TWILIO_WHATSAPP_FROM,
             to=f"whatsapp:{NUMERO_DESTINO}"
