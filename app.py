@@ -568,7 +568,9 @@ def test_recordatorio():
 
 @app.route("/", methods=["GET"])
 def home():
-    return "🏆 Bot Polla Mundial 2026 activo! v2 con recordatorios", 200
+    key = os.environ.get("ANTHROPIC_API_KEY", "NO ENCONTRADA")
+    preview = key[:10] + "..." if len(key) > 10 else key
+    return f"🏆 Bot activo | KEY: {preview}", 200
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
