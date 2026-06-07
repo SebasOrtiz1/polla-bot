@@ -368,21 +368,115 @@ def ayuda():
             "Grupos: A1-L6 · Octavos: O1-O16\n"
             "Cuartos: Q1-Q7 · Semis: S1-S4 · Final: FN1")
 
+def build_context(data):
+    """Construye el contexto completo para Claude con todos los pronósticos."""
+    # Resultados reales ingresados hasta ahora
+    reales = data.get("resultados_reales", {})
+    reales_str = ""
+    if reales:
+        reales_str = "\nRESULTADOS REALES INGRESADOS:\n"
+        for mid, score in reales.items():
+            p = PRONOSTICOS.get(mid, {})
+            reales_str += f"  {mid}: {p.get('t1','?')} {score} {p.get('t2','?')}\n"
+    else:
+        reales_str = "\nRESULTADOS REALES: Aún no se han ingresado resultados.\n"
+
+    return f"""Eres el asistente de una polla mundialista del Mundial 2026 para 2 usuarios.
+Responde siempre en español, con emojis moderados, máximo 250 palabras.
+
+=== ESTADO DE LA POLLA ===
+Puntos U1: {data['puntos']['u1']} pts (exactos: {data['exactos']['u1']} 🎯 | resultados: {data['resultados_ok']['u1']} ✅)
+Puntos U2: {data['puntos']['u2']} pts (exactos: {data['exactos']['u2']} 🎯 | resultados: {data['resultados_ok']['u2']} ✅)
+Partidos ingresados: {len(reales)}
+{reales_str}
+
+=== PRONÓSTICOS FINALES ===
+U1 → Campeón: España | Subcampeón: Francia | 3°: Argentina | 4°: Inglaterra
+U2 → Campeón: Argentina | Subcampeón: España | 3°: Brasil | 4°: Francia
+Final U1: España 2-1 Portugal
+Final U2: Argentina 2-1 Francia (o España)
+
+=== GOLEADORES ===
+U1 pronostica:
+  1. Kylian Mbappé (Francia) — 8 goles
+  2. Erling Haaland (Noruega) — 7 goles
+  3. Harry Kane (Inglaterra) — 6 goles
+  4. Lamine Yamal (España) — 5 goles
+  5. Mikel Oyarzabal (España) — 5 goles
+  6. Julián Álvarez (Argentina) — 5 goles
+
+U2 pronostica:
+  1. Vinicius Jr. (Brasil) — 7 goles
+  2. Kylian Mbappé (Francia) — 7 goles
+  3. Lionel Messi (Argentina) — 6 goles
+  4. Erling Haaland (Noruega) — 6 goles
+  5. Cristiano Ronaldo (Portugal) — 5 goles
+  6. Julián Álvarez (Argentina) — 5 goles
+
+=== PREMIOS INDIVIDUALES ===
+U1: Balón de Oro → Lamine Yamal | Guante de Oro → Maignan | Mejor joven → Yamal
+U2: Balón de Oro → Mbappé | Guante de Oro → Maignan | Mejor joven → Yamal
+
+=== PRONÓSTICOS ELIMINATORIA ===
+-- OCTAVOS DE FINAL --
+O1:  España 3-0 vs 3° grupo            | U2: 2-0
+O2:  Uruguay 2-1 Suiza                 | U2: 1-0
+O3:  Francia 2-0 Senegal               | U2: 3-1
+O4:  Noruega 2-1 vs 3° grupo           | U2: 1-0
+O5:  Argentina 3-0 vs 3° grupo         | U2: 2-0
+O6:  Colombia 2-1 Austria              | U2: 1-0
+O7:  Inglaterra 3-0 vs 3° grupo        | U2: 2-0
+O8:  Alemania 2-1 Ecuador              | U2: 1-0
+O9:  Brasil 3-0 Irán                   | U2: 2-1
+O10: Marruecos 2-1 Canadá              | U2: 1-1 (4-3p) → Canadá
+O11: Bélgica 2-1 Japón                 | U2: 1-1 (5-4p) → Japón
+O12: Portugal 3-1 Corea del Sur        | U2: 2-0
+O13: México 2-1 EEUU                   | U2: 1-2 → EEUU
+O14: P. Bajos 2-1 Turquía              | U2: 1-1 (4-2p) → P. Bajos
+O15: Croacia 2-0 Australia             | U2: 1-0
+O16: Argelia 2-1 Ghana                 | U2: 1-1 (3-2p) → Argelia
+
+-- CUARTOS DE FINAL --
+Q1: España 2-1 Marruecos              | U2: 2-0
+Q2: Francia 2-1 Bélgica               | U2: 2-1
+Q3: Argentina 1-0 Brasil              | U2: 1-1 (4-2p) → Argentina
+Q4: Inglaterra 2-1 P. Bajos           | U2: 1-1 (5-4p) → Inglaterra
+Q5: Portugal 2-1 Alemania             | U2: 2-1
+Q6: Uruguay 2-1 Colombia              | U2: 1-2 → Colombia
+Q7: Noruega 2-1 Croacia               | U2: 1-0
+
+-- SEMIFINALES --
+S1: España 2-1 Argentina              | U2: 1-1 (5-3p) → Argentina
+S2: Francia 2-1 Inglaterra            | U2: 1-0
+S3: Portugal 3-1 Uruguay (solo U1)
+S4: Brasil 2-1 Noruega (solo U2)
+
+-- 3ER PUESTO --
+U1: Argentina 2-1 Francia
+U2: Francia 2-1 Brasil
+
+-- FINAL --
+U1: España 2-1 Portugal → Campeón: España 🏆
+U2: Argentina 2-1 Francia → Campeón: Argentina 🏆
+
+=== GRUPOS — CLASIFICADOS PRONOSTICADOS ===
+A: 1°México 2°Corea del Sur | B: 1°Suiza 2°Canadá | C: 1°Brasil 2°Marruecos
+D: 1°EEUU 2°Turquía | E: 1°Alemania 2°Ecuador | F: 1°P.Bajos 2°Japón
+G: 1°Bélgica 2°Irán | H: 1°España 2°Uruguay | I: 1°Francia 2°Noruega
+J: 1°Argentina 2°Austria | K: 1°Portugal 2°Colombia | L: 1°Inglaterra 2°Croacia
+
+=== SORPRESAS Y ELIMINADOS TEMPRANO ===
+U1: Sorpresa → Marruecos | Eliminado temprano → Qatar
+U2: Sorpresa → Portugal | Eliminado temprano → Haití
+"""
+
 def resumen_claude(pregunta):
     data = load_data()
-    context = (f"Eres el asistente de una polla mundialista del Mundial 2026 para 2 usuarios.\n\n"
-               f"ESTADO ACTUAL:\n"
-               f"- Puntos U1: {data['puntos']['u1']} (exactos: {data['exactos']['u1']}, resultados: {data['resultados_ok']['u1']})\n"
-               f"- Puntos U2: {data['puntos']['u2']} (exactos: {data['exactos']['u2']}, resultados: {data['resultados_ok']['u2']})\n"
-               f"- Partidos jugados: {len(data['resultados_reales'])}\n\n"
-               f"PRONOSTICOS CLAVE:\n"
-               f"- U1: Campeón España, Subcampeón Francia, 3° Argentina. Bota de Oro Mbappé.\n"
-               f"- U2: Campeón Argentina, Subcampeón España, 3° Brasil. Bota de Oro Vinicius Jr.\n\n"
-               f"Responde en español, máx 200 palabras, emojis moderados.")
+    context = build_context(data)
     try:
         response = anthropic_client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=300,
+            max_tokens=400,
             system=context,
             messages=[{"role": "user", "content": pregunta}]
         )
