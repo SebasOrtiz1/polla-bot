@@ -358,8 +358,11 @@ def partidos_pendientes():
 
 def ayuda():
     return ("🤖 *Bot Polla Mundial 2026*\n\n"
-            "📅 *hoy* → Partidos del día con IDs y pronósticos\n"
-            "🏆 *tabla* → Ver puntos actuales\n"
+            "📅 *hoy* → Partidos del día con IDs\n"
+            "🏆 *tabla* → Puntos actuales\n"
+            "🌍 *grupos* → Clasificados por grupo\n"
+            "🥅 *goleadores* → Tabla de goleadores U1 y U2\n"
+            "🏆 *eliminatoria* → Pronósticos octavos a final\n"
             "📋 *pronostico A1* → Pronóstico de un partido\n"
             "⚽ *resultado A1 2-1* → Ingresar resultado real\n"
             "⏳ *pendientes* → Partidos sin resultado\n"
@@ -470,6 +473,106 @@ U1: Sorpresa → Marruecos | Eliminado temprano → Qatar
 U2: Sorpresa → Portugal | Eliminado temprano → Haití
 """
 
+
+def clasificados_grupos():
+    """Devuelve los clasificados pronosticados por grupo — sin llamar a Claude."""
+    return (
+        "🌍 *Clasificados pronosticados por grupo*\n"
+        "_(Ambos usuarios coinciden salvo donde se indica)_\n\n"
+        "🔵 *U1 → estadístico* | 🟢 *U2 → instinto*\n\n"
+        "*Grupo A:* 1°🇲🇽México 2°🇰🇷Corea del Sur\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo B:* 1°🇨🇭Suiza 2°🇨🇦Canadá\n"
+        "  🟢 U2: mismos\n\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo C:* 1°🇧🇷Brasil 2°🇲🇦Marruecos\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo D:* 1°🇺🇸EEUU 2°🇹🇷Turquía\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo E:* 1°🇩🇪Alemania 2°🇪🇨Ecuador\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo F:* 1°🇳🇱P.Bajos 2°🇯🇵Japón\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo G:* 1°🇧🇪Bélgica 2°🇮🇷Irán\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo H:* 1°🇪🇸España 2°🇺🇾Uruguay\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo I:* 1°🇫🇷Francia 2°🇳🇴Noruega\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo J:* 1°🇦🇷Argentina 2°🇦🇹Austria\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo K:* 1°🇵🇹Portugal 2°🇨🇴Colombia\n"
+        "  🟢 U2: mismos\n\n"
+        "*Grupo L:* 1°🏴󠁧󠁢󠁥󠁮󠁧󠁿Inglaterra 2°🇭🇷Croacia\n"
+        "  🟢 U2: mismos\n\n"
+        "📌 Ambos usuarios tienen los mismos clasificados en todos los grupos.\n"
+        "Las diferencias están en la eliminatoria. Escribe *eliminatoria* para verla."
+    )
+
+def eliminatoria():
+    """Devuelve pronósticos de eliminatoria de ambos usuarios — sin llamar a Claude."""
+    return (
+        "🏆 *Pronósticos eliminatoria*\n\n"
+        "━━━ OCTAVOS DE FINAL ━━━\n"
+        "O1:  🔵España 3-0 | 🟢España 2-0\n"
+        "O2:  🔵Uruguay 2-1 Suiza | 🟢Uruguay 1-0\n"
+        "O3:  🔵Francia 2-0 Senegal | 🟢Francia 3-1\n"
+        "O4:  🔵Noruega 2-1 | 🟢Noruega 1-0\n"
+        "O5:  🔵Argentina 3-0 | 🟢Argentina 2-0\n"
+        "O6:  🔵Colombia 2-1 Austria | 🟢Colombia 1-0\n"
+        "O7:  🔵Inglaterra 3-0 | 🟢Inglaterra 2-0\n"
+        "O8:  🔵Alemania 2-1 Ecuador | 🟢Alemania 1-0\n"
+        "O9:  🔵Brasil 3-0 Irán | 🟢Brasil 2-1\n"
+        "O10: 🔵Marruecos 2-1 Canadá | 🟢Canadá (pen)\n"
+        "O11: 🔵Bélgica 2-1 Japón | 🟢Japón (pen)\n"
+        "O12: 🔵Portugal 3-1 Corea | 🟢Portugal 2-0\n"
+        "O13: 🔵México 2-1 EEUU | 🟢EEUU 2-1\n"
+        "O14: 🔵P.Bajos 2-1 Turquía | 🟢P.Bajos (pen)\n"
+        "O15: 🔵Croacia 2-0 Australia | 🟢Croacia 1-0\n"
+        "O16: 🔵Argelia 2-1 Ghana | 🟢Argelia (pen)\n\n"
+        "━━━ CUARTOS DE FINAL ━━━\n"
+        "Q1: 🔵España 2-1 Marruecos | 🟢España 2-0\n"
+        "Q2: 🔵Francia 2-1 Bélgica | 🟢Francia 2-1\n"
+        "Q3: 🔵Argentina 1-0 Brasil | 🟢Argentina (pen)\n"
+        "Q4: 🔵Inglaterra 2-1 P.Bajos | 🟢Inglaterra (pen)\n"
+        "Q5: 🔵Portugal 2-1 Alemania | 🟢Portugal 2-1\n"
+        "Q6: 🔵Uruguay 2-1 Colombia | 🟢Colombia 2-1\n"
+        "Q7: 🔵Noruega 2-1 Croacia | 🟢Noruega 1-0\n\n"
+        "━━━ SEMIFINALES ━━━\n"
+        "S1: 🔵España 2-1 Argentina | 🟢Argentina (pen)\n"
+        "S2: 🔵Francia 2-1 Inglaterra | 🟢Francia 1-0\n"
+        "S3: 🔵Portugal 3-1 Uruguay | (solo U1)\n"
+        "S4: 🟢Brasil 2-1 Noruega | (solo U2)\n\n"
+        "━━━ TERCER PUESTO ━━━\n"
+        "🔵 Argentina 2-1 Francia\n"
+        "🟢 Francia 2-1 Brasil\n\n"
+        "━━━ FINAL ━━━\n"
+        "🔵 España 2-1 Portugal → 🏆 España\n"
+        "🟢 Argentina 2-1 Francia → 🏆 Argentina"
+    )
+
+def goleadores():
+    """Devuelve tabla de goleadores de ambos usuarios — sin llamar a Claude."""
+    return (
+        "👟 *Goleadores pronosticados*\n\n"
+        "🔵 *Usuario 1 — estadístico:*\n"
+        "1. Mbappé 🇫🇷 — 8 goles\n"
+        "2. Haaland 🇳🇴 — 7 goles\n"
+        "3. Kane 🏴󠁧󠁢󠁥󠁮󠁧󠁿 — 6 goles\n"
+        "4. Lamine Yamal 🇪🇸 — 5 goles\n"
+        "5. Oyarzabal 🇪🇸 — 5 goles\n"
+        "6. J. Álvarez 🇦🇷 — 5 goles\n\n"
+        "🟢 *Usuario 2 — instinto:*\n"
+        "1. Vinicius Jr. 🇧🇷 — 7 goles\n"
+        "2. Mbappé 🇫🇷 — 7 goles\n"
+        "3. Messi 🇦🇷 — 6 goles\n"
+        "4. Haaland 🇳🇴 — 6 goles\n"
+        "5. Cristiano Ronaldo 🇵🇹 — 5 goles\n"
+        "6. J. Álvarez 🇦🇷 — 5 goles\n\n"
+        "🤝 *Coinciden en:* Mbappé, Haaland y J. Álvarez\n"
+        "⚡ *Diferencia clave:* U1 → Mbappé primero | U2 → Vinicius primero"
+    )
+
 def resumen_claude(pregunta):
     data = load_data()
     context = build_context(data)
@@ -545,6 +648,12 @@ def webhook():
         msg.body(ayuda())
     elif cmd in ["pendientes", "faltan"]:
         msg.body(partidos_pendientes())
+    elif cmd in ["grupos", "clasificados", "grupos clasificados"]:
+        msg.body(clasificados_grupos())
+    elif cmd in ["goleadores", "goles"]:
+        msg.body(goleadores())
+    elif cmd in ["eliminatoria", "llaves", "cruces"]:
+        msg.body(eliminatoria())
     elif cmd == "resultado":
         if len(partes) >= 3:
             msg.body(registrar_resultado(partes[1].upper(), partes[2].strip()))
@@ -568,9 +677,7 @@ def test_recordatorio():
 
 @app.route("/", methods=["GET"])
 def home():
-    key = os.environ.get("ANTHROPIC_API_KEY", "NO ENCONTRADA")
-    preview = key[:10] + "..." if len(key) > 10 else key
-    return f"🏆 Bot activo | KEY: {preview}", 200
+    return "🏆 Bot Polla Mundial 2026 activo! v2 con recordatorios", 200
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
