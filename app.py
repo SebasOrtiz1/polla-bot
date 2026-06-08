@@ -476,7 +476,7 @@ def resumen_claude(pregunta):
     try:
         response = anthropic_client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=400,
+            max_tokens=1024,
             system=context,
             messages=[{"role": "user", "content": pregunta}]
         )
