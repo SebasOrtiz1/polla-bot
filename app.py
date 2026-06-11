@@ -36,7 +36,7 @@ def get_twilio():
 NUMERO_DESTINO        = os.environ.get("MI_NUMERO_WHATSAPP")          # ej: +573001234567
 TWILIO_WHATSAPP_FROM  = os.environ.get("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886")
 ZONA_COLOMBIA         = ZoneInfo("America/Bogota")
-HORA_RECORDATORIO     = 8   # 8 AM hora Colombia
+HORA_RECORDATORIO     = 12   # 8 AM hora Colombia
 
 # ── DATOS PERSISTENTES ───────────────────────────────────────
 DATA_FILE = "polla_data.json"
