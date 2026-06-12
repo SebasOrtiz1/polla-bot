@@ -36,7 +36,8 @@ def get_twilio():
 NUMERO_DESTINO        = os.environ.get("MI_NUMERO_WHATSAPP")          # ej: +573001234567
 TWILIO_WHATSAPP_FROM  = os.environ.get("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886")
 ZONA_COLOMBIA         = ZoneInfo("America/Bogota")
-HORA_RECORDATORIO     = 12   # 8 AM hora Colombia
+HORA_RECORDATORIO     = 11  # Hora Colombia
+MINUTO_RECORDATORIO   = 50  # Minuto exacto (ej: 50 = XX:50)
 
 # ── DATOS PERSISTENTES ───────────────────────────────────────
 DATA_FILE = "polla_data.json"
@@ -161,80 +162,97 @@ PRONOSTICOS = {
 }
 
 FIXTURE = [
-    {"id":"A1","fecha":"2026-06-11","hora":"17:00","grupo":"A"},
-    {"id":"B1","fecha":"2026-06-12","hora":"14:00","grupo":"B"},
-    {"id":"B2","fecha":"2026-06-12","hora":"17:00","grupo":"B"},
-    {"id":"C1","fecha":"2026-06-12","hora":"20:00","grupo":"C"},
-    {"id":"A2","fecha":"2026-06-13","hora":"14:00","grupo":"A"},
-    {"id":"C2","fecha":"2026-06-13","hora":"17:00","grupo":"C"},
-    {"id":"D1","fecha":"2026-06-13","hora":"20:00","grupo":"D"},
-    {"id":"D2","fecha":"2026-06-14","hora":"14:00","grupo":"D"},
-    {"id":"E1","fecha":"2026-06-14","hora":"17:00","grupo":"E"},
-    {"id":"E2","fecha":"2026-06-14","hora":"20:00","grupo":"E"},
-    {"id":"F1","fecha":"2026-06-15","hora":"14:00","grupo":"F"},
-    {"id":"F2","fecha":"2026-06-15","hora":"17:00","grupo":"F"},
-    {"id":"G1","fecha":"2026-06-15","hora":"20:00","grupo":"G"},
-    {"id":"G2","fecha":"2026-06-16","hora":"14:00","grupo":"G"},
-    {"id":"H1","fecha":"2026-06-16","hora":"17:00","grupo":"H"},
-    {"id":"H2","fecha":"2026-06-16","hora":"20:00","grupo":"H"},
-    {"id":"I1","fecha":"2026-06-17","hora":"14:00","grupo":"I"},
-    {"id":"I2","fecha":"2026-06-17","hora":"17:00","grupo":"I"},
-    {"id":"J1","fecha":"2026-06-17","hora":"20:00","grupo":"J"},
-    {"id":"J2","fecha":"2026-06-18","hora":"14:00","grupo":"J"},
-    {"id":"K1","fecha":"2026-06-18","hora":"17:00","grupo":"K"},
-    {"id":"K2","fecha":"2026-06-18","hora":"20:00","grupo":"K"},
-    {"id":"L1","fecha":"2026-06-19","hora":"14:00","grupo":"L"},
-    {"id":"L2","fecha":"2026-06-19","hora":"17:00","grupo":"L"},
-    {"id":"A3","fecha":"2026-06-20","hora":"14:00","grupo":"A"},
-    {"id":"A4","fecha":"2026-06-20","hora":"17:00","grupo":"A"},
-    {"id":"B3","fecha":"2026-06-20","hora":"20:00","grupo":"B"},
-    {"id":"B4","fecha":"2026-06-21","hora":"14:00","grupo":"B"},
-    {"id":"C3","fecha":"2026-06-21","hora":"17:00","grupo":"C"},
-    {"id":"C4","fecha":"2026-06-21","hora":"20:00","grupo":"C"},
-    {"id":"D3","fecha":"2026-06-22","hora":"14:00","grupo":"D"},
-    {"id":"D4","fecha":"2026-06-22","hora":"17:00","grupo":"D"},
-    {"id":"E3","fecha":"2026-06-22","hora":"20:00","grupo":"E"},
-    {"id":"E4","fecha":"2026-06-23","hora":"14:00","grupo":"E"},
-    {"id":"F3","fecha":"2026-06-23","hora":"17:00","grupo":"F"},
-    {"id":"F4","fecha":"2026-06-23","hora":"20:00","grupo":"F"},
-    {"id":"G3","fecha":"2026-06-24","hora":"14:00","grupo":"G"},
-    {"id":"G4","fecha":"2026-06-24","hora":"17:00","grupo":"G"},
-    {"id":"H3","fecha":"2026-06-24","hora":"20:00","grupo":"H"},
-    {"id":"H4","fecha":"2026-06-25","hora":"14:00","grupo":"H"},
-    {"id":"I3","fecha":"2026-06-25","hora":"17:00","grupo":"I"},
-    {"id":"I4","fecha":"2026-06-25","hora":"20:00","grupo":"I"},
-    {"id":"J3","fecha":"2026-06-26","hora":"14:00","grupo":"J"},
-    {"id":"J4","fecha":"2026-06-26","hora":"17:00","grupo":"J"},
-    {"id":"K3","fecha":"2026-06-26","hora":"20:00","grupo":"K"},
-    {"id":"K4","fecha":"2026-06-27","hora":"14:00","grupo":"K"},
-    {"id":"L3","fecha":"2026-06-27","hora":"17:00","grupo":"L"},
-    {"id":"L4","fecha":"2026-06-27","hora":"20:00","grupo":"L"},
-    {"id":"A5","fecha":"2026-07-01","hora":"16:00","grupo":"A"},
-    {"id":"A6","fecha":"2026-07-01","hora":"16:00","grupo":"A"},
-    {"id":"B5","fecha":"2026-07-01","hora":"20:00","grupo":"B"},
-    {"id":"B6","fecha":"2026-07-01","hora":"20:00","grupo":"B"},
-    {"id":"C5","fecha":"2026-07-02","hora":"16:00","grupo":"C"},
-    {"id":"C6","fecha":"2026-07-02","hora":"16:00","grupo":"C"},
-    {"id":"D5","fecha":"2026-07-02","hora":"20:00","grupo":"D"},
-    {"id":"D6","fecha":"2026-07-02","hora":"20:00","grupo":"D"},
-    {"id":"E5","fecha":"2026-07-03","hora":"16:00","grupo":"E"},
-    {"id":"E6","fecha":"2026-07-03","hora":"16:00","grupo":"E"},
-    {"id":"F5","fecha":"2026-07-03","hora":"20:00","grupo":"F"},
-    {"id":"F6","fecha":"2026-07-03","hora":"20:00","grupo":"F"},
-    {"id":"G5","fecha":"2026-07-04","hora":"16:00","grupo":"G"},
-    {"id":"G6","fecha":"2026-07-04","hora":"16:00","grupo":"G"},
-    {"id":"H5","fecha":"2026-07-04","hora":"20:00","grupo":"H"},
-    {"id":"H6","fecha":"2026-07-04","hora":"20:00","grupo":"H"},
-    {"id":"I5","fecha":"2026-07-05","hora":"16:00","grupo":"I"},
-    {"id":"I6","fecha":"2026-07-05","hora":"16:00","grupo":"I"},
-    {"id":"J5","fecha":"2026-07-05","hora":"20:00","grupo":"J"},
-    {"id":"J6","fecha":"2026-07-05","hora":"20:00","grupo":"J"},
-    {"id":"K5","fecha":"2026-07-06","hora":"16:00","grupo":"K"},
-    {"id":"K6","fecha":"2026-07-06","hora":"16:00","grupo":"K"},
-    {"id":"L5","fecha":"2026-07-06","hora":"20:00","grupo":"L"},
-    {"id":"L6","fecha":"2026-07-06","hora":"20:00","grupo":"L"},
+    # ── 11 JUNIO ──
+    {"id":"A1","fecha":"2026-06-11","hora":"14:00","grupo":"A"},  # México vs Sudáfrica
+    {"id":"A2","fecha":"2026-06-11","hora":"21:00","grupo":"A"},  # Corea del Sur vs Chequia
+    # ── 12 JUNIO ──
+    {"id":"B1","fecha":"2026-06-12","hora":"14:00","grupo":"B"},  # Canadá vs Bosnia-Herz.
+    {"id":"D1","fecha":"2026-06-12","hora":"20:00","grupo":"D"},  # EEUU vs Paraguay
+    # ── 13 JUNIO ──
+    {"id":"B2","fecha":"2026-06-13","hora":"14:00","grupo":"B"},  # Qatar vs Suiza
+    {"id":"C1","fecha":"2026-06-13","hora":"17:00","grupo":"C"},  # Brasil vs Marruecos
+    {"id":"C2","fecha":"2026-06-13","hora":"20:00","grupo":"C"},  # Haití vs Escocia
+    {"id":"D2","fecha":"2026-06-13","hora":"23:00","grupo":"D"},  # Australia vs Turquía
+    # ── 14 JUNIO ──
+    {"id":"E1","fecha":"2026-06-14","hora":"12:00","grupo":"E"},  # Alemania vs Curazao
+    {"id":"F1","fecha":"2026-06-14","hora":"15:00","grupo":"F"},  # P. Bajos vs Japón
+    {"id":"E2","fecha":"2026-06-14","hora":"18:00","grupo":"E"},  # C. de Marfil vs Ecuador
+    {"id":"F2","fecha":"2026-06-14","hora":"21:00","grupo":"F"},  # Suecia vs Túnez
+    # ── 15 JUNIO ──
+    {"id":"H1","fecha":"2026-06-15","hora":"11:00","grupo":"H"},  # España vs Cabo Verde
+    {"id":"G1","fecha":"2026-06-15","hora":"14:00","grupo":"G"},  # Bélgica vs Egipto
+    {"id":"H2","fecha":"2026-06-15","hora":"17:00","grupo":"H"},  # Arabia S. vs Uruguay
+    {"id":"G2","fecha":"2026-06-15","hora":"20:00","grupo":"G"},  # Irán vs N. Zelanda
+    # ── 16 JUNIO ──
+    {"id":"L1","fecha":"2026-06-16","hora":"11:00","grupo":"L"},  # Ghana vs Panamá
+    {"id":"L2","fecha":"2026-06-16","hora":"14:00","grupo":"L"},  # Inglaterra vs Croacia
+    {"id":"K1","fecha":"2026-06-16","hora":"17:00","grupo":"K"},  # Portugal vs Congo RD
+    {"id":"K2","fecha":"2026-06-16","hora":"20:00","grupo":"K"},  # Uzbekistán vs Colombia
+    # ── 17 JUNIO ──
+    {"id":"A3","fecha":"2026-06-17","hora":"11:00","grupo":"A"},  # Chequia vs Sudáfrica
+    {"id":"B3","fecha":"2026-06-17","hora":"14:00","grupo":"B"},  # Suiza vs Bosnia
+    {"id":"A4","fecha":"2026-06-17","hora":"17:00","grupo":"A"},  # Canadá vs Qatar
+    {"id":"I1","fecha":"2026-06-17","hora":"21:00","grupo":"I"},  # Uzbekistán vs Colombia (K2 ya está)
+    # ── 18 JUNIO ──
+    {"id":"I2","fecha":"2026-06-18","hora":"11:00","grupo":"I"},  # Irak vs Noruega
+    {"id":"J1","fecha":"2026-06-18","hora":"14:00","grupo":"J"},  # Argentina vs Argelia
+    {"id":"J2","fecha":"2026-06-18","hora":"17:00","grupo":"J"},  # Austria vs Jordania
+    {"id":"I1","fecha":"2026-06-18","hora":"21:00","grupo":"I"},  # Francia vs Senegal
+    # ── 19 JUNIO ──
+    {"id":"G3","fecha":"2026-06-19","hora":"11:00","grupo":"G"},  # Bélgica vs Irán
+    {"id":"G4","fecha":"2026-06-19","hora":"14:00","grupo":"G"},  # Egipto vs N. Zelanda
+    {"id":"H3","fecha":"2026-06-19","hora":"17:00","grupo":"H"},  # España vs Arabia S.
+    {"id":"H4","fecha":"2026-06-19","hora":"20:00","grupo":"H"},  # Uruguay vs Cabo Verde
+    # ── 20 JUNIO ──
+    {"id":"D3","fecha":"2026-06-20","hora":"11:00","grupo":"D"},  # EEUU vs Australia
+    {"id":"D4","fecha":"2026-06-20","hora":"14:00","grupo":"D"},  # Turquía vs Paraguay
+    {"id":"E3","fecha":"2026-06-20","hora":"17:00","grupo":"E"},  # Alemania vs C. de Marfil
+    {"id":"E4","fecha":"2026-06-20","hora":"20:00","grupo":"E"},  # Ecuador vs Curazao
+    # ── 21 JUNIO ──
+    {"id":"F3","fecha":"2026-06-21","hora":"11:00","grupo":"F"},  # P. Bajos vs Suecia
+    {"id":"F4","fecha":"2026-06-21","hora":"14:00","grupo":"F"},  # Japón vs Túnez
+    {"id":"C3","fecha":"2026-06-21","hora":"17:00","grupo":"C"},  # Brasil vs Haití
+    {"id":"C4","fecha":"2026-06-21","hora":"20:00","grupo":"C"},  # Marruecos vs Escocia
+    # ── 22 JUNIO ──
+    {"id":"L3","fecha":"2026-06-22","hora":"11:00","grupo":"L"},  # Inglaterra vs Ghana
+    {"id":"L4","fecha":"2026-06-22","hora":"14:00","grupo":"L"},  # Croacia vs Panamá
+    {"id":"B4","fecha":"2026-06-22","hora":"17:00","grupo":"B"},  # Suiza vs Bosnia
+    {"id":"B5","fecha":"2026-06-22","hora":"20:00","grupo":"B"},  # Canadá vs Qatar
+    # ── 23 JUNIO ──
+    {"id":"I3","fecha":"2026-06-23","hora":"11:00","grupo":"I"},  # Francia vs Irak
+    {"id":"I4","fecha":"2026-06-23","hora":"14:00","grupo":"I"},  # Senegal vs Noruega
+    {"id":"K3","fecha":"2026-06-23","hora":"17:00","grupo":"K"},  # Portugal vs Uzbekistán
+    {"id":"K4","fecha":"2026-06-23","hora":"21:00","grupo":"K"},  # Colombia vs Congo RD
+    # ── 24 JUNIO ──
+    {"id":"J3","fecha":"2026-06-24","hora":"11:00","grupo":"J"},  # Argentina vs Austria
+    {"id":"J4","fecha":"2026-06-24","hora":"14:00","grupo":"J"},  # Argelia vs Jordania
+    {"id":"E5","fecha":"2026-06-24","hora":"17:00","grupo":"E"},  # Alemania vs Ecuador
+    {"id":"E6","fecha":"2026-06-24","hora":"17:00","grupo":"E"},  # Curazao vs C. de Marfil
+    # ── 25 JUNIO ──
+    {"id":"F5","fecha":"2026-06-25","hora":"17:00","grupo":"F"},  # P. Bajos vs Túnez
+    {"id":"F6","fecha":"2026-06-25","hora":"17:00","grupo":"F"},  # Japón vs Suecia
+    {"id":"G5","fecha":"2026-06-25","hora":"20:00","grupo":"G"},  # Bélgica vs N. Zelanda
+    {"id":"G6","fecha":"2026-06-25","hora":"20:00","grupo":"G"},  # Egipto vs Irán
+    # ── 26 JUNIO ──
+    {"id":"H5","fecha":"2026-06-26","hora":"17:00","grupo":"H"},  # España vs Uruguay
+    {"id":"H6","fecha":"2026-06-26","hora":"17:00","grupo":"H"},  # Cabo Verde vs Arabia S.
+    {"id":"C5","fecha":"2026-06-26","hora":"20:00","grupo":"C"},  # Marruecos vs Haití
+    {"id":"C6","fecha":"2026-06-26","hora":"20:00","grupo":"C"},  # Escocia vs Brasil
+    # ── 27 JUNIO ──
+    {"id":"A5","fecha":"2026-06-27","hora":"17:00","grupo":"A"},  # Chequia vs México
+    {"id":"A6","fecha":"2026-06-27","hora":"17:00","grupo":"A"},  # Sudáfrica vs Corea
+    {"id":"B6","fecha":"2026-06-27","hora":"20:00","grupo":"B"},  # Bosnia vs Qatar
+    {"id":"L5","fecha":"2026-06-27","hora":"17:00","grupo":"L"},  # Inglaterra vs Panamá
+    {"id":"L6","fecha":"2026-06-27","hora":"17:00","grupo":"L"},  # Croacia vs Ghana
+    {"id":"D5","fecha":"2026-06-27","hora":"20:00","grupo":"D"},  # Turquía vs EEUU
+    {"id":"D6","fecha":"2026-06-27","hora":"20:00","grupo":"D"},  # Paraguay vs Australia
+    {"id":"I5","fecha":"2026-06-27","hora":"17:00","grupo":"I"},  # Francia vs Noruega
+    {"id":"I6","fecha":"2026-06-27","hora":"17:00","grupo":"I"},  # Irak vs Senegal
+    {"id":"J5","fecha":"2026-06-27","hora":"20:00","grupo":"J"},  # Argentina vs Jordania
+    {"id":"J6","fecha":"2026-06-27","hora":"20:00","grupo":"J"},  # Austria vs Argelia
+    {"id":"K5","fecha":"2026-06-27","hora":"18:30","grupo":"K"},  # Portugal vs Colombia
+    {"id":"K6","fecha":"2026-06-27","hora":"20:00","grupo":"K"},  # Congo vs Uzbekistán
 ]
-
 # ── SISTEMA DE PUNTOS ─────────────────────────────────────────
 def parse_score(s):
     if not s or s in ["—", ""] or "(" in s:
@@ -293,7 +311,7 @@ def registrar_resultado(match_id, marcador_real):
             f"👑 Líder: *{lider}*")
 
 def partidos_hoy():
-    hoy = date.today().isoformat()
+    hoy = datetime.now(ZONA_COLOMBIA).date().isoformat()
     partidos = [f for f in FIXTURE if f["fecha"] == hoy]
     data = load_data()
     if not partidos:
@@ -592,7 +610,7 @@ def enviar_recordatorio():
     """Envía los partidos del día automáticamente a las 8 AM Colombia."""
     if not NUMERO_DESTINO:
         return
-    hoy = date.today().isoformat()
+    hoy = datetime.now(ZONA_COLOMBIA).date().isoformat()
     partidos_dia = [f for f in FIXTURE if f["fecha"] == hoy]
     if not partidos_dia:
         return  # No hay partidos hoy, no enviar nada
@@ -618,7 +636,7 @@ def scheduler_loop():
         try:
             ahora = datetime.now(ZONA_COLOMBIA)
             hoy = ahora.date().isoformat()
-            if ahora.hour == HORA_RECORDATORIO and ahora.minute == 0 and ultimo_envio != hoy:
+            if ahora.hour == HORA_RECORDATORIO and ahora.minute == MINUTO_RECORDATORIO and ultimo_envio != hoy:
                 ultimo_envio = hoy
                 enviar_recordatorio()
         except Exception as e:
